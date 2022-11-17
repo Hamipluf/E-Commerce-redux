@@ -1,7 +1,7 @@
 import { PaymentElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 export default function CheckoutForm() {
@@ -10,7 +10,7 @@ export default function CheckoutForm() {
   const total = useSelector(state => state.products.total)
 
   const [message, setMessage] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default function CheckoutForm() {
       return;
     }
 
-    setIsProcessing(true);
+    setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
@@ -37,21 +37,21 @@ export default function CheckoutForm() {
       setMessage("An unexpected error occured.");
     }
 
-    setIsProcessing(false);
+    setIsLoading(false);
   };
 
   return (
     <form className="text-light p-5" id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
       {/* se muestra el boton cuando stripe o los elementos esten cargados */}
-      <button className="btn btn-primary btn-wide m-5" disabled={isProcessing || !stripe || !elements} id="submit"> 
+      <button className="btn btn-primary btn-wide m-5" disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isProcessing ? "Processing ... " : "Buy"}
+          {isLoading ? "Processing ... " : "Buy"}
         </span>
       </button>
       {/* Muestro los mensajes de error o éxito */}
       {message && <div id="payment-message">{message}</div>}
-      <h3 className="text-lg font-semibold text-obscure p-5">Total: {total}</h3>
+      <h3 className="text-2xl font-bold text-obscure p-5">Total: {total}</h3>
     </form>
   );
 }

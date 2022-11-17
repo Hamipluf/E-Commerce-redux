@@ -38,10 +38,10 @@ function Payment() {
 
 
     axios.get('http://localhost:5252/config', //clave publica obtengo por metodo get
-    {
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then( res => {
+      {
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => {
         const publishableKey = res.data.publishableKey;
         // console.log(publishableKey)
         setStripePromise(loadStripe(publishableKey));
@@ -54,9 +54,38 @@ function Payment() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen  bg-grayx flex flex-wrap-reverse desktop:grid  desktop:grid-cols-2">
-        <div className="card w-11/12 desktop:w-full h-4/6 p-10 m-5 bg-second shadow-xl text-light">
-          <h2 className="text-2xl text-obscure font-bold tracking-tight p-5">Completa el formulario con los datos de tu tarjeta para completar el pago</h2>
+
+      {/* MODAL TARJETA PRUEBA */}
+      <div>
+        <input type="checkbox" id="my-modal-1" className="modal-toggle" />
+        <label htmlFor="my-modal-4" className="modal cursor-pointer">
+          <label className="modal-box relative" htmlFor="">
+            <label htmlFor="my-modal-1" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+            <h3 className="text-lg font-bold">Test card succefuly</h3>
+            <hr />
+            <ul>
+              <li><span className="font-bold text-light">Card Number:</span> 4242 4242 4242 4242</li>
+              <li><span className="font-bold text-light">CVC:</span> 3 random digits</li>
+              <li><span className="font-bold text-light"> Date:</span> Any future dates</li>
+            </ul>
+            <h3 className="pt-4 text-lg font-bold">Test card rejected {'(wrong cvc)'} </h3>
+            <hr />
+            <ul>
+              <li><span className="font-bold text-light">Card Number:</span> 4000 0000 0000 0127</li>
+              <li><span className="font-bold text-light">CVC:</span> 3 random digits</li>
+              <li><span className="font-bold text-light"> Date:</span> Any future dates</li>
+            </ul>
+          </label>
+        </label>
+      </div>
+      <div className="min-h-screen bg-grayx flex flex-wrap-reverse desktop:grid  desktop:grid-cols-2">
+        <div className="card w-11/12 desktop:w-full p-10 m-5 desktop:order-first bg-second shadow-xl text-light">
+          <div className="w-10/12">
+            {/* Boton Para abrir modal de la tarjeta */}
+            <label htmlFor="my-modal-1" className="btn my-5 desktop:mx-5 w-32 btn-info">Tarjeta de prueba</label>
+            {/* Boton para volver al home */}
+            <button onClick={() => { navegate('/home') }} className="btn w-32 btn-warning">Back to Home {'>'}</button> </div>
+          <h2 className="text-2xl text-obscure font-bold tracking-tight p-5">Fill in the form with your credit card information to complete the payment.</h2>
           <hr />
           {clientSecret && stripePromise && (
             <Elements stripe={stripePromise} options={{ clientSecret }}>
@@ -64,10 +93,10 @@ function Payment() {
             </Elements>
           )}
         </div>
-        <div className="desktop:w-9/12 m-5">
+        <div className="mx-auto desktop:order-last tablet:w-10/11">
           {product.map(product => (
             <div key={product.id}>
-              <div className="card card-compact my-5  text-light card-side bg-obscure shadow-xl">
+              <div className="card card-compact my-5 tablet:card-side text-light tablet:w-10/12 desktop:card-side bg-obscure shadow-xl">
                 <figure><img className='w-56 phone:w-20 phone:m-5' src={product.img} alt="Movie" /></figure>
                 <div className="card-body">
                   <h2 className="card-title">{product.title}</h2>
