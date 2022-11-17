@@ -1,8 +1,4 @@
-# Accepting a payment
-
-An [Express server](http://expressjs.com) implementation
-
-You can [🎥 watch a video](https://youtu.be/WG4ehXSEpz4) to see how this server was implemented and [read the transcripts](./TRANSCRIPTS.md).
+# Server Side
 
 ## Requirements
 
@@ -31,4 +27,4 @@ npm install
 npm start
 ```
 
-3. The react frontend will be running on `localhost:4242`. Follow the instructions in the README there to install and start the frontend server.
+3. The react frontend will be running on `localhost:3000`. Follow the instructions in the README there to install and start the frontend server.
